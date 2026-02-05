@@ -1,0 +1,342 @@
+// ===========================
+// Variables
+// ===========================
+$baseFontFamily: 'Lexend', sans-serif;
+
+$baseFontSize: 15px;
+$largeTitleFontSize: 30px;
+$largeSubtitleFontSize: 25px;
+$cartTitleFontSize: 20px;
+$productTitleFontSize: 17px;
+
+$lightFontWeight: 300;
+$mediumFontWeight: 500;
+$semiBoldFontWeight: 600;
+
+$baseTextColor: #999;
+$whiteColor: #fff;
+$darkBorderColor: #333;
+$headerBackgroundColor: rgb(200, 200, 205);
+
+$cartBoxShadow: -19px -1px 22px -15px rgba(0, 0, 0, 0.30);
+
+$desktopHeaderPadding: 20px 50px;
+
+$desktopCartWidth: 500px;
+$tabletCartWidth: 400px;
+
+$tabletBreakpointMaxWidth: 820px;
+$mobileBreakpointMaxWidth: 480px;
+
+// ===========================
+// Mixins
+// ===========================
+@mixin applyStylesUpToMaxWidth($maxWidth) {
+  @media (max-width: $maxWidth) {
+    @content;
+  }
+}
+
+@mixin applyFlexLayout(
+  $justifyContent: flex-start,
+  $alignItems: stretch,
+  $flexDirection: row
+) {
+  display: flex;
+  flex-direction: $flexDirection;
+  justify-content: $justifyContent;
+  align-items: $alignItems;
+}
+
+@mixin applyGridTemplateColumns($templateColumns) {
+  display: grid;
+  grid-template-columns: $templateColumns;
+}
+
+@mixin applyBackgroundCoverImage($imagePath, $backgroundPositionY: null) {
+  background-image: url($imagePath);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @if $backgroundPositionY != null {
+    background-position-y: $backgroundPositionY;
+  }
+}
+
+// ===========================
+// Placeholders para @extend 
+// ===========================
+%setElementToFullWidth {
+  width: 100%;
+}
+
+%useBorderBoxSizing {
+  box-sizing: border-box;
+}
+
+%centerTextAlignment {
+  text-align: center;
+}
+
+%showPointerCursor {
+  cursor: pointer;
+}
+
+%displayFlexColumnAndCenterItems {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+%removeDefaultMarginAndPadding {
+  margin: 0;
+  padding: 0;
+}
+
+%useObjectFitCoverForImages {
+  object-fit: cover;
+}
+
+%setFixedPanelAnchoredToRightAndHidden {
+  position: fixed;
+  right: -100%;
+  height: 100%;
+}
+
+// ===========================
+// Styles 
+// ===========================
+body {
+  @extend %setElementToFullWidth;
+  font-size: $baseFontSize;
+  font-weight: $lightFontWeight;
+  color: $baseTextColor;
+  font-family: $baseFontFamily;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+.header {
+  @extend %setElementToFullWidth;
+  @extend %useBorderBoxSizing;
+  padding: $desktopHeaderPadding;
+  background-color: $headerBackgroundColor;
+  @include applyFlexLayout(space-between, center);
+}
+
+.header__icon {
+  @extend %showPointerCursor;
+  width: 35px;
+  display: inline-block;
+}
+
+.header__logo {
+  width: 100px;
+}
+
+.banner {
+  @extend %setElementToFullWidth;
+  @extend %centerTextAlignment;
+  padding: 60px 0;
+  @include applyBackgroundCoverImage("../img/banner.jpg", 60%);
+  color: $whiteColor;
+}
+
+.banner__title {
+  @extend %setElementToFullWidth;
+  font-weight: $semiBoldFontWeight;
+  font-size: $largeTitleFontSize;
+  margin-bottom: 10px;
+}
+
+.banner__subtitle {
+  @extend %setElementToFullWidth;
+  margin: 0 auto;
+  font-size: $largeSubtitleFontSize;
+  opacity: 0.7;
+}
+
+.products {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  @extend %useBorderBoxSizing;
+  @include applyGridTemplateColumns(repeat(auto-fill, minmax(250px, 1fr)));
+}
+
+.products__item {
+  @extend %showPointerCursor;
+  @extend %centerTextAlignment;
+  @include applyFlexLayout($alignItems: center, $flexDirection: column);
+  height: 100%;
+  margin: 15px 0;
+}
+
+.products__img {
+  width: 200px;
+  height: 200px;
+  @extend %useObjectFitCoverForImages;
+  margin-bottom: 15px;
+}
+
+.products__title {
+  font-weight: $mediumFontWeight;
+  font-size: $productTitleFontSize;
+  margin-bottom: 5px;
+  height: 2.5em;
+  @include applyFlexLayout(center, center);
+}
+
+.products__price {
+  font-weight: $lightFontWeight;
+  font-size: $baseFontSize;
+  margin: 0;
+}
+
+.cart {
+  width: $desktopCartWidth;
+  background-color: $whiteColor;
+  padding: 25px;
+  @extend %useBorderBoxSizing;
+  @extend %setFixedPanelAnchoredToRightAndHidden;
+  top: 100px;
+  box-shadow: $cartBoxShadow;
+}
+
+.cart__title {
+  @extend %setElementToFullWidth;
+  @extend %centerTextAlignment;
+  @extend %useBorderBoxSizing;
+  font-size: $cartTitleFontSize;
+  font-weight: $semiBoldFontWeight;
+  padding: 25px 0;
+}
+
+.cart__div {
+  border-bottom: 1px solid $darkBorderColor;
+  @include applyFlexLayout(space-between, center);
+  padding: 15px;
+  @extend %useBorderBoxSizing;
+}
+
+.cart__img {
+  width: 60px;
+}
+
+.cart__div:nth-child(3) {
+  font-weight: $mediumFontWeight;
+}
+
+.cart__icon {
+  @extend %showPointerCursor;
+  width: 25px;
+}
+
+.cart__delete-icon {
+  @extend %setElementToFullWidth;
+  @extend %showPointerCursor;
+}
+
+// ===========================
+// Responsive (Tablet)
+// ===========================
+@include applyStylesUpToMaxWidth($tabletBreakpointMaxWidth) {
+  .header {
+    padding: 15px;
+  }
+
+  .header__logo {
+    width: 60px;
+  }
+
+  .header__icon {
+    width: 30px;
+  }
+
+  .products {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .products__img {
+    width: 150px;
+  }
+
+  .cart {
+    width: $tabletCartWidth;
+    top: 80px;
+  }
+}
+
+// ===========================
+// Responsive (Mobile)
+// ===========================
+@include applyStylesUpToMaxWidth($mobileBreakpointMaxWidth) {
+  .header {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  .header__logo {
+    width: 50px;
+  }
+
+  .header__icon {
+    width: 30px;
+  }
+
+  .banner {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+  }
+
+  .banner__title {
+    font-size: 18px;
+  }
+
+  .banner__subtitle {
+    font-size: 16px;
+  }
+
+  .products {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  .products__img {
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 10px;
+  }
+
+  .products__title,
+  .products__price {
+    padding: 10px;
+  }
+
+  .cart {
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .cart__title {
+    padding: 15px 0;
+  }
+
+  .cart__div {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cart__img {
+    width: 100px;
+  }
+
+  .cart__product,
+  .cart__price {
+    margin: 5px 0;
+  }
+}
